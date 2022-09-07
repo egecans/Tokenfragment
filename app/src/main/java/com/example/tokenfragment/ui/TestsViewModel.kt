@@ -4,13 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tokenfragment.data.db.TestsDao
-import com.example.tokenfragment.data.db.TestsDatabase
-import com.example.tokenfragment.data.db.entities.Tests
-import com.example.tokenfragment.data.repositories.TestRepository
-import kotlinx.coroutines.CoroutineScope
+import com.example.datalib.data.db.TestsDatabase
+import com.example.datalib.data.db.entities.Tests
+import com.example.datalib.data.repositories.TestRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,7 +27,7 @@ class TestsViewModel(application: Application): AndroidViewModel(application){
         getAllTests = repository.getAllTests()
     }
 
-    fun getTestById(id: Int): Tests{
+    fun getTestById(id: Int): Tests {
         return repository.getTestById(id)
     }
 

@@ -1,9 +1,9 @@
-package com.example.tokenfragment.data.repositories
+package com.example.datalib.data.repositories
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.tokenfragment.data.db.TestsDatabase
-import com.example.tokenfragment.data.db.entities.Tests
+import com.example.datalib.data.db.TestsDatabase
+import com.example.datalib.data.db.entities.Tests
 
 //abstracts access to multiple data sources, don't have to do that but it's a good practice
 class TestRepository(
@@ -34,7 +34,7 @@ class TestRepository(
         return result
     }
 
-    fun getTestById(id: Int): Tests{
+    fun getTestById(id: Int): Tests {
         val result = database.getTestsDao().getTestById(id)
         Log.d("repo","get test by id: ${result.toString()}")
         return result

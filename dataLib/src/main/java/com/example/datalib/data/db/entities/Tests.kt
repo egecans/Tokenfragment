@@ -1,4 +1,4 @@
-package com.example.tokenfragment.data.db.entities
+package com.example.datalib.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

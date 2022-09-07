@@ -1,8 +1,8 @@
-package com.example.tokenfragment.data.db
+package com.example.datalib.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.tokenfragment.data.db.entities.Tests
+import com.example.datalib.data.db.entities.Tests
 
 //burada methodların gerekliliklerini tanımlayacaksın, sonra üzerine yazacaksın
 //Defining methods that access the database
@@ -14,7 +14,7 @@ interface TestsDao {
     suspend fun upsert(tests: Tests)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE) //if all same, ignore it
-    suspend fun insert(tests:Tests)
+    suspend fun insert(tests: Tests)
 
     @Update
     suspend fun update(tests: Tests)

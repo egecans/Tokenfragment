@@ -2,15 +2,10 @@ package com.example.tokenfragment.other
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tokenfragment.R
-import com.example.tokenfragment.data.db.entities.Tests
+import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.TestBinding
-import com.example.tokenfragment.ui.TestsViewModel
-import kotlin.math.log
 
 class TestAdapter(
     //var tests: List<Tests>,   //parametresiz de oluyo demek ki

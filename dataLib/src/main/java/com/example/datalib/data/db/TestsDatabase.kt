@@ -1,11 +1,11 @@
-package com.example.tokenfragment.data.db
+package com.example.datalib.data.db
 
 import android.content.Context
 import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.tokenfragment.data.db.entities.Tests
+import com.example.datalib.data.db.entities.Tests
 
 //database degisincce version degismeli
 @Database(

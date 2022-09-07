@@ -1,25 +1,11 @@
 package com.example.tokenfragment
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tokenfragment.data.db.TestsDatabase
-import com.example.tokenfragment.data.db.entities.Tests
-import com.example.tokenfragment.data.repositories.TestRepository
 import com.example.tokenfragment.databinding.ActivityMainBinding
-import com.example.tokenfragment.other.TestAdapter
-import com.example.tokenfragment.ui.TestsViewModel
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.kodein //kendimiz importladık
-import org.kodein.di.generic.instance
 
 class MainActivity : AppCompatActivity() { //KodeinAware
 

@@ -6,13 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.tokenfragment.data.db.entities.Tests
-import com.example.tokenfragment.databinding.FragmentTest1Binding
+import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.FragmentTest2Binding
 import com.example.tokenfragment.ui.TestsViewModel
 

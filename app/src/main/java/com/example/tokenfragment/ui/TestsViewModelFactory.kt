@@ -1,8 +1,5 @@
 package com.example.tokenfragment.ui
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.tokenfragment.data.repositories.TestRepository
 /*
 //ViewModelProviders.of(this).get(ShoppingViewModel::class.java) da parametre giremiyon bu da error verdiriyor
 //bu yüzden ViewModelFactory'e ihtiyacın var

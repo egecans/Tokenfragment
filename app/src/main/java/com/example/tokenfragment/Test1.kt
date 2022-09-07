@@ -1,28 +1,23 @@
 package com.example.tokenfragment
 
-import android.annotation.TargetApi
-import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.tokenfragment.data.db.TestsDatabase
-import com.example.tokenfragment.data.db.entities.Tests
-import com.example.tokenfragment.data.repositories.TestRepository
+import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.FragmentTest1Binding
-import com.example.tokenfragment.other.TestAdapter
 import com.example.tokenfragment.ui.TestsViewModel
 
 
 //testi gönderemiyoruz başka bir şey yapmalıyız, interface'e parametre koyarsak gönderebiliriz
 
+/**
+ *
+ */
 class Test1() : Fragment() {
 
     private lateinit var mTestsViewModel: TestsViewModel

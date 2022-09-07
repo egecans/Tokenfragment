@@ -1,6 +1,6 @@
 package com.example.tokenfragment
 
-import com.example.tokenfragment.data.db.entities.Tests
+import com.example.datalib.data.db.entities.Tests
 
 interface TestInterface {
 
