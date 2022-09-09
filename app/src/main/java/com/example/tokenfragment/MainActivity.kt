@@ -1,78 +1,98 @@
 package com.example.tokenfragment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.tokenfragment.databinding.ActivityMainBinding
+import com.example.tokenfragment.ui.TestsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This is the Main Activity Class, which runs our app.
+ * We need to call methods those run in here.
+ * It's @AndroidEntryPoint because, we get ViewModel inside of class,
+ * Even if we wouldn't get the ViewModel here, we have to annotate it with @AndroidEntryPoint
+ * because we get ViewModel in Fragments which we call there.
+ */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() { //KodeinAware
 
-    /*
-    override val kodein by kodein()
-    private val factory: TestsViewModelFactory by instance()    //from provider
-*/
+
+    private fun isExternalStorageWritable(): Boolean{
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+            Log.d("Main/Writable","yes is writable")
+            return true
+        }
+        Log.d("Main/Writable","no isn't writable")
+        return false
+    }
+
+    //path de yazılıyomuş external yerde
+    private fun isExternalStorageReadable(): Boolean{
+        if(isExternalStorageWritable() || Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState())){
+            Log.d("Main/Readable","yes is readable")
+            return true
+        }
+        Log.d("Main/Readable","no isn't readable")
+        return false
+    }
+
+
+    /**
+     * Methods for running app are calling there. Views are displayed in activity_main layout
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
-        //setContentView(R.layout.activity_main)
+        //instead //setContentView(R.layout.activity_main) I do that with binding
         setContentView(binding.root)
 
+        isExternalStorageReadable()
+        isExternalStorageReadable()
 
 
+        val currentDBPath = getDatabasePath("test_database")
+        Log.d("Main/DBPath", "db path is $currentDBPath")
 
-        /*
-        /*
-        val database: TestsDatabase  = TestsDatabase(this)
-        val repository = TestRepository(database)
-        val factory = TestsViewModelFactory(repository) */
-        //viewModel provider is used to connect UI Controller with ViewModel
-        val viewModel = ViewModelProvider(this,factory).get(TestsViewModel::class.java)
-        //factorysiz çalışmadı TestsViewModelde parametre girmek gerektiğinden
+        //define viewModel by Hilt
+        val mViewModel: TestsViewModel by viewModels()
 
-        val adapter = TestAdapter(listOf(),viewModel)
-        rvTests.layoutManager = LinearLayoutManager(this)
-        rvTests.adapter = adapter
-
-        viewModel.getAllTests().observe(this, Observer {
-            adapter.tests = it  //testler bu Daodaki döndüğü lifecycledaki list of tests
-            adapter.notifyDataSetChanged()
-        })
-        */
-
-        val emptyFragment = EmptyFragment()     //call this for initial visualization
+        //initialize instances of those classes here
+        val emptyFragment = EmptyFragment()
         val test1Fragment = Test1()
-        val test2Fragment = Test2()
-        val fragmentList = FragmentList()
+        val test2Fragment = Test2(mViewModel)
+        val fragmentList = FragmentList(mViewModel)
 
-        //ctrl + q ile bak serializable dönüyo
-
-        //rv için olanı ayarladın
+        /**
+         * This is for recyclerView, it begins fragment transaction here
+         * and replace the FrameLayout with fragmentList.
+         */
         supportFragmentManager.beginTransaction().apply {
-            Log.d("Main","yeniliyor")
             replace(R.id.rvTests,fragmentList)
             commit()
         }
 
-        //define our initial visualization here
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment,emptyFragment)
-            commit()
-        }
-
-        //findViewById<Button>(R.id.btnTest1)
+        /** This is for if user click Test1 button, if s/he does then it starts the Test1 Fragment and
+         * add those to the BackStack if we don't add to the backStack then when we clicked back button at the bottom
+         * we close the app because stack was empty.
+         * instead we use binding again findViewById<Button>(R.id.btnTest1)
+         */
+        //
         binding.btnTest1.setOnClickListener {
-            /* startActivity(Intent(this,Test1Activity::class.java)) */
+            //starts the display fragment, apply is for minimizing the code if we don't have apply block
+            //then we always says supportFragmentManager.beginTransaction at the beginning of the operations inside of that block
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.flFragment,test1Fragment)
                 addToBackStack(null)    //now it adds it to the fragment stack, otherwise just start a new fragment
                 commit()
             }
-            /*val test1 = intent.getSerializableExtra("EXTRA_TEST1") as Tests
-            viewModel.upsert(test1) */
+            //supportFragmentManager.popBackStack() buton ekleyip yap
         }
-
+        /**
+         * This is for clicking Test2.
+         */
         binding.btnTest2.setOnClickListener {
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.flFragment,test2Fragment)
@@ -80,31 +100,5 @@ class MainActivity : AppCompatActivity() { //KodeinAware
                 commit()
             }
         }
-
-        //create a dialog
-        val test3Dialog = AlertDialog.Builder(this)
-            .setTitle("Test 3")
-            .setIcon(R.drawable.ic_test)
-            .setMessage("Did you pass the test3?")
-            .setNegativeButton("NO"){ _, _ ->   //dialogInterface, i  aren't needed
-                Log.d("Test3","You are failed on Test3")
-                Toast.makeText(this,"You are failed on Test3",Toast.LENGTH_SHORT).show()
-            }
-            .setPositiveButton("YES"){ _, _ ->
-                Log.d("Test3","You are successed on Test3")
-                Toast.makeText(this,"You are successed on Test3",Toast.LENGTH_SHORT).show()
-            }
-
-        binding.btnTest3.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flFragment,emptyFragment)
-                addToBackStack(null)
-                commit()
-            }
-            test3Dialog.show()
-        }
-
-
-
     }
 }

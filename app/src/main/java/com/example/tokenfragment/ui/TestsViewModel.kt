@@ -8,68 +8,58 @@ import androidx.lifecycle.viewModelScope
 import com.example.datalib.data.db.TestsDatabase
 import com.example.datalib.data.db.entities.Tests
 import com.example.datalib.data.repositories.TestRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 //Activity değil application context tutabilirsin
 //provide data to UI and survive configuration changes. Like communication center btw Repo and UI
-class TestsViewModel(application: Application): AndroidViewModel(application){
 
+//repositoryi atadı buraya
+//buraya repo atanınca factoryle çalışmalı böyle olmasın diye çağırdığın her yere DI atamalısın
+
+/** This class is for provide data to UI and survive configuration changes.
+ * It behaves like communication center between Repository and UI (User Interface)
+ * We annotate with HiltViewModel to tell Hilt (Dependency Injection) to it's our viewModel
+ * lately we call this viewModel without passing its parameter thanks to  hilt like in the repository here
+ * We won't call repository while we call ViewModel class because we define our repository in AppModule with Hilt.
+ */
+@HiltViewModel
+class TestsViewModel @Inject constructor(
+    application: Application, private val repository: TestRepository ): AndroidViewModel(application){
+
+    /**
+     * this value is for getting all the tests as LiveData List in init block by calling getAllTests from repository
+     * which access the database and then data access object and tell this method
+     */
     val getAllTests: LiveData<List<Tests>>
-    private val repository: TestRepository
+    //private val repository: TestRepository
 
     init {
-        Log.d("ViewModel","Init geldi") //buraya girmiyo, girmediğine göre getAllTestsi de yapmıyor
-        val testDB = TestsDatabase.invoke(application)
-        val testDao = testDB.getTestsDao()
-        repository = TestRepository(testDB)
         getAllTests = repository.getAllTests()
     }
 
+    /**
+     * This is for getting test by id
+     */
     fun getTestById(id: Int): Tests {
         return repository.getTestById(id)
     }
 
-     fun upsert(tests: Tests){  //suspende gerek kalmadı Dispatcher içinde kullandığı için
-        viewModelScope.launch(Dispatchers.IO) { //mainde değil IO background threadde çalıştır
-            repository.upsert(tests)
-        }
-    }
-
-
-    fun insert(tests: Tests){
+    /**
+     * This is for update and inserting the data at the same time, we made this modification in Dao as you remembered
+     * It's Coroutine function because of that we define it before as a suspend function.
+     * It's working in viewModelScope and work in IO thread instead of Main thread
+     * thanks to this our program is little bit faster than before.
+     */
+    fun upsert(tests: Tests){
         viewModelScope.launch(Dispatchers.IO) {
-            //Log.d("ViewModel","Insert Geldi")
-            repository.insert(tests)
+            repository.upsert(tests)    //the arrow with sign at right is because it's a suspend function
         }
     }
 
-    fun update(tests: Tests){
-        viewModelScope.launch(Dispatchers.IO) {
-            //Log.d("ViewModel","Update Geldi")
-            repository.update(tests)
-        }
-    }
 
 }
 
-
-    /*
-    (
-    private val repository: TestRepository
-): ViewModel() {
-
-    //Coroutine olduğundan suspende gerek kalmadı artık
-    //Main threadde yapıyor işlemi
-    fun upsert(test: Tests) = CoroutineScope(Dispatchers.Main).launch {
-        repository.upsert(test)     //suspend fun o yüzden ok işareti var,
-    }
-
-    fun getAllTests() = repository.getAllTests()
-
-    //viewModelde parametre var ama
-    //ViewModelProviders.of(this).get(ShoppingViewModel::class.java) da parametre giremiyon bu da error verdiriyor
-    //bu yüzden ViewModelFactory'e ihtiyacın var
-}
-*/

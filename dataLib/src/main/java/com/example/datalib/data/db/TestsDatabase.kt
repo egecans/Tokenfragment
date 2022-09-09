@@ -7,73 +7,60 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.datalib.data.db.entities.Tests
 
-//database degisincce version degismeli
+/** @author egecans
+ * This class is an abstract database class, it's basically getting the Data Access Object and create
+ * a single database instance. First we annotate this is a database with @Database
+ * and tell it's entity classes by entities parameter, and version number to update it whenever we change
+ * something in database
+ * It's inherited from RoomDatabase() class
+ */
 @Database(
     entities = [Tests::class],
     version = 3,
-    //exportSchema = false    //version history tutmasına gerek yok diye false dedik
 )
 abstract class TestsDatabase: RoomDatabase() {
 
-    abstract fun getTestsDao(): TestsDao    //bunu inherit eden bu fonksiyonu çağırmak zorunda sonucunda da dao gelecek,
-    //dao sonucunda da işlemleri yapmak zorunda kalacak
+    /**
+     * it's only get Data Access Object, it's needed for lately to access the methods with using data
+     */
+    abstract fun getTestsDao(): TestsDao
 
-    companion object{ //içindeki variable val funlar static oluyor, her instanceta bakıyor yani
-        //classı singleton(tekil) kullanabilmek için lazım
+    /**
+     * Everything in companion object (values, functions...) is single, like static in java
+     */
+    companion object{
 
-        @Volatile   //tek yaratmasını sağlıyor karışmasın 2 tane diye
-        private var INSTANCE: TestsDatabase? = null //başta null sonra dolacak
+        /**
+         * It's database instance, it's declared as nullable because it's null before it's created
+         * Volatile annotation create it ones, not everytime it's called.
+         */
+        @Volatile
+        private var INSTANCE: TestsDatabase? = null
 
-        private val lock = Any()
 
-        //operator operator overloadingden sanırım?
-        //daha önce db instance'ı kurulmamışsa şimdi kuruyor
-        //operator fun invoke(context: Context): TestsDatabase {
-        fun invoke(context: Context): TestsDatabase {
+        /**
+         * This function is for creating database if it hasn't been created before, and returns the database
+         */
+        fun getDatabaseInstance(context: Context): TestsDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
-                Log.d("DB","db is already created")
                 return tempInstance     //if instance already exists return that instance
             }
             synchronized(this){ //if not than sychronizely create and return that instance
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    TestsDatabase::class.java,
-                    "test_database"
-                ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
-                //eğer version updatelersen ekle .fallbackToDestructiveMigration()
-                //main thread hatası aldığı için de buildden önce .allowMainThreadQueries() ekledim
-                Log.d("DB","db created")
+                    context.applicationContext, //application context
+                    TestsDatabase::class.java,  //class of database
+                    "test_database" //name of database
+                ).allowMainThreadQueries()  //to throw some exceptions
+                    .fallbackToDestructiveMigration()   //if you update the version (to change something in database)
+                        //then it needs to destroy the database before, becasue of that we use that method
+                    //.createFromAsset("database/test_db.db")
+                    .build()    //to build it
                 INSTANCE = instance
                 return instance
             }
-
-            //farklı yaptım bence aynısının daha readable hali
-            /*
-            return instance ?: synchronized(lock) { //if instance is null, synchronized da aynı anda sanırım?
-                // if (instance == null)
-                //val it = createDatabase(context)    //bir daha if instance is null demedim burda
-                //instance = it
-                instance ?: createDatabase(context).also {
-                    instance = it
-                }
-            }*/
         }
 
-        //db kuruyor
-        /*
-        private fun createDatabase(context: Context) { // = yerine return diyince olmadı { } ile de olmadı
-             Room.databaseBuilder(
-                context.applicationContext,  //apple aynı contexti olmalı, this
-                TestsDatabase::class.java,
-                 "testsDB.db").build()
-        //.fallbackToDestructiveMigration()
-            Log.d("DB", "db is created")
-        }
-
-         */
     }
-
-
 
 }

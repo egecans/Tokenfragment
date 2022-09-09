@@ -11,11 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.FragmentTest2Binding
 import com.example.tokenfragment.ui.TestsViewModel
+import javax.inject.Inject
 
+/** This class is almost same as Test1 which is another fragment class of Tests,
+ *  the only difference here is, it contains an info and it is define
+ *  testView in constructor with Hilt for practicing both dependency.
+ *  You can look Test1 if you wonder what those operations are for
+ */
+class Test2 @Inject constructor(private val mTestsViewModel: TestsViewModel) : Fragment() {
 
-class Test2 : Fragment() {
-
-    private lateinit var mTestsViewModel: TestsViewModel
     private var _binding: FragmentTest2Binding? = null
     private val binding get() = _binding!!
 
@@ -24,25 +28,22 @@ class Test2 : Fragment() {
         var successCount: Int = 0
         var lastResult: Boolean = false
         var info: String = ""
-        var test = Tests(2,"Test2", successCount, failCount, false, info)    //0 0 olunca eklemiyomuş
+        var test = Tests(2,"Test2", successCount, failCount, false, info)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentTest2Binding.inflate(inflater,container,false)   //bu null olabilir
-        return binding.root     //ama bu olamaz
+        _binding = FragmentTest2Binding.inflate(inflater,container,false)
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mTestsViewModel = ViewModelProvider(this).get(TestsViewModel::class.java)
 
         binding.btnSubmitTest2.setOnClickListener {
-
-
             var result =""
             val currTest = mTestsViewModel.getTestById(2)
             if (binding.rbSuccessTest2.isChecked ){
@@ -55,7 +56,6 @@ class Test2 : Fragment() {
                 }
                 lastResult = true
                 info = binding.etInfo.text.toString()
-                result = "Success"
             }
             else{
                 if (currTest == null){
@@ -67,42 +67,17 @@ class Test2 : Fragment() {
                 }
                 lastResult = false
                 info = binding.etInfo.text.toString()
-                result = "Fail"
-            }
-            /*
-            Log.d("testID before","${test.id}")
-            if (successCount + failCount <= 1){
-                test = Tests(2,"Test2", successCount, failCount, lastResult, info) //companiondakini değiştirsin tıklayınca
-                insertDatatoDatabase(test)
-                Log.d("Test2", "Insert successfully")
-            }
-            else{
-                test = Tests(2,"Test1", successCount, failCount, lastResult, info)
-                mTestsViewModel.update(test)
-                Log.d("Test2", "Update successfully")
             }
 
-             */
             test = Tests(2,"Test2", successCount, failCount, lastResult, info)
             mTestsViewModel.upsert(test)
-            Log.d("testID after","${test.id}")
-            Log.d("test","$test.toString()}")
-
-
-            Toast.makeText(requireContext(),"Successfully added!", Toast.LENGTH_SHORT).show()
-            val tag = "Test2"   //fragment adı getirebilirsem çok iyi ama bulamadım
-            val str = "You are $result on $tag with info: $info"
-            Log.d(tag, str)
         }
     }
 
-    private fun insertDatatoDatabase(test: Tests) { //suspend yaptım
-        mTestsViewModel.insert(test)
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null //bidaha null yapsın destroyladığında memory leak olmasın
+        _binding = null
     }
 
 

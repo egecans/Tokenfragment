@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/testLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:id="@+id/testLayout">
+    android:layout_height="wrap_content">
 
 
     <TextView
         android:id="@+id/tvTag"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
         android:text="TAG"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/tvCountSuccess"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +21,11 @@
 
     <TextView
         android:id="@+id/tvCountSuccess"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:text="CS"
-        android:textSize="20sp"
+        android:text="Success C"
+        android:textAlignment="center"
+        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/tvCountFail"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvTag"
@@ -32,10 +33,11 @@
 
     <TextView
         android:id="@+id/tvCountFail"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:text="CF"
-        android:textSize="20sp"
+        android:text="Fail Count"
+        android:textAlignment="center"
+        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/tvLastResult"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvCountSuccess"
@@ -43,10 +45,11 @@
 
     <TextView
         android:id="@+id/tvLastResult"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:text="Result"
-        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/tvInfo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvCountFail"
@@ -54,10 +57,11 @@
 
     <TextView
         android:id="@+id/tvInfo"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:text="Info"
-        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvLastResult"
