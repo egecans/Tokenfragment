@@ -1,4 +1,4 @@
-package com.example.tokenfragment
+package com.example.tokenfragment.di
 
 import android.app.Application
 import com.example.datalib.data.repositories.TestRepository

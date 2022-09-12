@@ -1,33 +1,26 @@
-package com.example.tokenfragment
+package com.example.tokenfragment.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.FragmentTest1Binding
 import com.example.tokenfragment.ui.TestsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 /** This class is for fragment Test1 which doesn't include any info
  * It basically assign its data first (when the Test1 is null) and then gets those data from database and operate
  * them corresponding button user has clicked.
- * It has @AndroidEntryPoint because it's getting viewModel by Dependency Injection
+ * @param mTestsViewModel ViewModel instance getting by DI
  */
-@AndroidEntryPoint
-class Test1() : Fragment() {
+class Test1 @Inject constructor(private val mTestsViewModel: TestsViewModel) : Fragment() {
 
-    /** Here gets viewModel by Hilt DI and then define binding as nullable and
-     * get its nullable binding instance as nonnull one.
-     */
-    private val mTestsViewModel: TestsViewModel by viewModels()
+
     private var _binding: FragmentTest1Binding? = null
     private val binding get() = _binding!!
 
@@ -40,6 +33,7 @@ class Test1() : Fragment() {
         var failCount: Int = 0
         var successCount: Int = 0
         var lastResult: Boolean = false
+        var test = Tests(1,"Test1", successCount, failCount, false, "")
     }
 
     /**
@@ -84,7 +78,7 @@ class Test1() : Fragment() {
                 lastResult = false
             }
             // define the test with corresponding values
-            var test = Tests(1,"Test1", successCount, failCount, lastResult,"")
+            test = Tests(1,"Test1", successCount, failCount, lastResult,"")
             //then upsert it (if it hasn't been created yet, insert else, update)
             mTestsViewModel.upsert(test)
             parentFragmentManager.popBackStack()    //it closes this fragment and returns the empty fragment

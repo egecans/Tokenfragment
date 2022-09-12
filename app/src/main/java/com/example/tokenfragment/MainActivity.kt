@@ -6,6 +6,10 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tokenfragment.databinding.ActivityMainBinding
+import com.example.tokenfragment.ui.fragments.EmptyFragment
+import com.example.tokenfragment.ui.fragments.FragmentList
+import com.example.tokenfragment.ui.fragments.Test1
+import com.example.tokenfragment.ui.fragments.Test2
 import com.example.tokenfragment.ui.TestsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity() { //KodeinAware
 
         //initialize instances of those classes here
         val emptyFragment = EmptyFragment()
-        val test1Fragment = Test1()
+        val test1Fragment = Test1(mViewModel)
         val test2Fragment = Test2(mViewModel)
         val fragmentList = FragmentList(mViewModel)
 

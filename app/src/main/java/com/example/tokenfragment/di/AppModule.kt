@@ -1,4 +1,4 @@
-package com.example.tokenfragment
+package com.example.tokenfragment.di
 
 import android.app.Application
 import com.example.datalib.data.db.TestsDatabase
@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 /** This is a Module for Hilt, Hilt has some modules to define some values. If you define those values there, you

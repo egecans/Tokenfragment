@@ -1,4 +1,4 @@
-package com.example.tokenfragment
+package com.example.tokenfragment.ui.fragments
 
 import android.os.Bundle
 import android.util.Log

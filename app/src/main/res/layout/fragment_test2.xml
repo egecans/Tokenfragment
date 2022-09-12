@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/cardview_light_background"
     android:padding="16dp"
-    tools:context=".Test2">
+    tools:context=".ui.fragments.Test2">
 
     <TextView
         android:id="@+id/tvTest2"

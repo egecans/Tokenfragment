@@ -7,6 +7,7 @@ import com.example.datalib.data.db.entities.Tests
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
+import javax.inject.Named
 
 /** @author egecans
  * Actually this class isn't needed it is for access to multiple data sources but we have only 1

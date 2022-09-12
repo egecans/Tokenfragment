@@ -50,7 +50,7 @@ abstract class TestsDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext, //application context
                     TestsDatabase::class.java,  //class of database
-                    "test_database" //name of database
+                    "testdatabase_db" //name of database
                 ).allowMainThreadQueries()  //to throw some exceptions
                     .fallbackToDestructiveMigration()   //if you update the version (to change something in database)
                         //then it needs to destroy the database before, becasue of that we use that method

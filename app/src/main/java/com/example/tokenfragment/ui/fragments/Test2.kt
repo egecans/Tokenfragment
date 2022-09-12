@@ -1,21 +1,17 @@
-package com.example.tokenfragment
+package com.example.tokenfragment.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.FragmentTest2Binding
 import com.example.tokenfragment.ui.TestsViewModel
 import javax.inject.Inject
 
 /** This class is almost same as Test1 which is another fragment class of Tests,
- *  the only difference here is, it contains an info and it is define
- *  testView in constructor with Hilt for practicing both dependency.
+ *  the only difference here is, it contains an info.
  *  You can look Test1 if you wonder what those operations are for
  */
 class Test2 @Inject constructor(private val mTestsViewModel: TestsViewModel) : Fragment() {
