@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.datalib.data.db.entities.Tests
 import com.example.tokenfragment.databinding.FragmentTest1Binding
 import com.example.tokenfragment.ui.TestsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 /** This class is for fragment Test1 which doesn't include any info
@@ -62,7 +62,6 @@ class Test1() : Fragment() {
 
         //this is the operations after user clicked submit button
         binding.btnSubmitTest1.setOnClickListener {
-            var result =""
             val currTest = mTestsViewModel.getTestById(1) //it gets the Test whose id is 1
             if (binding.rbSuccessTest1.isChecked ){ //if user clicked the success button
                 if (currTest == null){  //if Test whose id is 1 is null which means hasn't created yet
@@ -88,7 +87,7 @@ class Test1() : Fragment() {
             var test = Tests(1,"Test1", successCount, failCount, lastResult,"")
             //then upsert it (if it hasn't been created yet, insert else, update)
             mTestsViewModel.upsert(test)
-
+            parentFragmentManager.popBackStack()    //it closes this fragment and returns the empty fragment
         }
     }
 

@@ -44,7 +44,6 @@ class Test2 @Inject constructor(private val mTestsViewModel: TestsViewModel) : F
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSubmitTest2.setOnClickListener {
-            var result =""
             val currTest = mTestsViewModel.getTestById(2)
             if (binding.rbSuccessTest2.isChecked ){
                 if (currTest == null){
@@ -71,6 +70,7 @@ class Test2 @Inject constructor(private val mTestsViewModel: TestsViewModel) : F
 
             test = Tests(2,"Test2", successCount, failCount, lastResult, info)
             mTestsViewModel.upsert(test)
+            parentFragmentManager.popBackStack()
         }
     }
 

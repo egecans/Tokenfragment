@@ -74,6 +74,15 @@ class MainActivity : AppCompatActivity() { //KodeinAware
             commit()
         }
 
+        /**
+         * This is for displaying empty fragment when we start the app and when we clicked submit.
+         * Because it will be parent fragment of test fragment because it's firstly initialized.
+         */
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment,emptyFragment)
+            commit()
+        }
+
         /** This is for if user click Test1 button, if s/he does then it starts the Test1 Fragment and
          * add those to the BackStack if we don't add to the backStack then when we clicked back button at the bottom
          * we close the app because stack was empty.
